@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Custom: Ignore application-database.yml
+application-database.yml
