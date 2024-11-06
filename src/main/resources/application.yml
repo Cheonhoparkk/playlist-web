@@ -2,11 +2,12 @@
 #  스프링 부트 속성
 ##################################
 spring:
+  config:
+    import:
+      - classpath:application-database.yml
+      - classpath:application-server.yml
+      - classpath:application-thymeleaf.yml
   application:
     name: playlist-web
 
-##################################
-#  Server
-##################################
-server:
-  port: 8081
+
