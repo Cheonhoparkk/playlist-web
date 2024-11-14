@@ -1,6 +1,7 @@
 package com.jypark.playlistweb.root;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RootWebController {
 
+    @Value("${myapp.page.login-uri}")
+    private String returnPageUri;
+
     @GetMapping("/")
     public String indexPage(final Model model) {
-        String returnPageUri = "/login/login-view"; // yml로 뺄 예정
-
         model.addAttribute("returnPageUri", returnPageUri);
         return "index";
     }

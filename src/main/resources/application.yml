@@ -7,6 +7,7 @@ spring:
       - classpath:application-database.yml
       - classpath:application-server.yml
       - classpath:application-thymeleaf.yml
+      - classpath:application-url.yml
   application:
     name: playlist-web
 
