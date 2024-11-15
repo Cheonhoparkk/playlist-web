@@ -1,6 +1,6 @@
 package com.jypark.playlistweb.controller.main;
 
-import com.jypark.playlistweb.service.YouTubeService;
+import com.jypark.playlistweb.service.youtube.YouTubeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -32,6 +32,7 @@ public class MainWebController {
     public String mainPage(Model model, @RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient authorizedClient) {
         // YouTube 재생목록 데이터 가져오기
         String playlists = youTubeService.getPlaylists(authorizedClient).block();   // 비동기 Mono를 동기로 변환
+
         if (playlists != null) {
             // 재생목록 데이터가 정상적으로 수신된 경우 로그 출력
             log.info("Playlists Data: {}", playlists); // 서버에서 데이터를 확인

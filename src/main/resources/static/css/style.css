@@ -196,5 +196,8 @@ form input:focus {
     width: 100%;
     height: auto;
     border-radius: 8px; /* 이미지 모서리를 카드와 동일하게 둥글게 설정 */
-    object-fit: cover; /* 이미지가 상자에 맞춰 잘려서 들어가도록 설정 */
+    object-fit: contain; /* 이미지 전체가 보이도록 조정 */
+    padding-top: 5px; /* 위쪽에 여백을 추가 */
 }
+
+

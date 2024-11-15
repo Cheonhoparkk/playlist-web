@@ -12,11 +12,13 @@ $(document).ready(function () {
         if (playlistData && playlistData.items && playlistData.items.length > 0) {
             playlistData.items.forEach(playlist => {
                 const playlistElement = `
-                    <div class="playlist">
-                        <img src="${playlist.snippet.thumbnails.medium.url}" alt="Playlist Thumbnail" class="thumbnail">
-                        <h3>${playlist.snippet.title}</h3>
-                        <p>${playlist.snippet.description || "No description available"}</p>
-                    </div>
+                    <a href="/playlist/${playlist.id}" class="playlist-link">
+                        <div class="playlist">
+                            <img src="${playlist.snippet.thumbnails.medium.url}" alt="Playlist Thumbnail" class="thumbnail">
+                            <h3>${playlist.snippet.title}</h3>
+                            <p>${playlist.snippet.description || "No description available"}</p>
+                        </div>
+                    </a>
                 `;
                 container.append(playlistElement);
             });

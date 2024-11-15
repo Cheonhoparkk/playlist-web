@@ -1,4 +1,4 @@
-package com.jypark.playlistweb.service;
+package com.jypark.playlistweb.service.youtube;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -33,5 +33,20 @@ public class YouTubeService {
                 .headers(headers -> headers.setBearerAuth(authorizedClient.getAccessToken().getTokenValue())) // 인증 토큰을 헤더에 추가
                 .retrieve() // 서버 응답을 받아 처리 시작
                 .bodyToMono(String.class);  // JSON 응답을 String으로 반환
+    }
+
+    public Mono<String> getPlaylistItems(String playlistId, OAuth2AuthorizedClient authorizedClient) {
+        return webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/youtube/v3/playlistItems")
+                        .queryParam("part", "snippet")
+                        .queryParam("mine", "true")
+                        .queryParam("playlistId", playlistId)
+                        .queryParam("maxResults", 50) // 원하는 결과 수
+                        .build())
+                .headers(headers -> headers.setBearerAuth(authorizedClient.getAccessToken().getTokenValue())) // OAuth2 토큰 설정
+                .retrieve()
+                .bodyToMono(String.class); // JSON 응답을 String으로 반환
     }
 }
