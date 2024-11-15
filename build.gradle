@@ -25,19 +25,37 @@ repositories {
 }
 
 dependencies {
-	/*implementation 'org.springframework.boot:spring-boot-starter-data-jpa'*/
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Spring MVC 및 REST API 기능 제공
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	/*runtimeOnly 'com.mysql:mysql-connector-j'*/
-	annotationProcessor 'org.projectlombok:lombok'
+	// Tomcat 서버 설정 (providedRuntime으로 WAR 배포 시 제공됨)
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	// 테스트 프레임워크 (Spring Boot의 테스트 기능 제공)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// JUnit 플랫폼 런처 추가 (테스트 시 사용)
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 데이터베이스 CRUD 작업 간편화
+	/*implementation 'org.springframework.boot:spring-boot-starter-data-jpa'*/
+	// HTML 기반 템플릿 엔진
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// 입력 값 유효성 검사 지원
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// 반복 코드 간소화 (Getter, Setter 등)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	// 개발 편의성 향상
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// MySQL DB 연동 드라이버
+	/*runtimeOnly 'com.mysql:mysql-connector-j'*/
+	// Spring Security (보안 설정 및 인증 기능)
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// OAuth2 클라이언트 기능 (소셜 로그인 및 OAuth2 인증 지원)
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	// WebFlux 추가 ()
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 }
 
 tasks.named('test') {
+	// JUnit 플랫폼을 사용하여 테스트 실행
 	useJUnitPlatform()
 }

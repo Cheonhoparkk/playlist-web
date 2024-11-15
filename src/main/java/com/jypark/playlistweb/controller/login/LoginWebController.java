@@ -1,4 +1,4 @@
-package com.jypark.playlistweb.login;
+package com.jypark.playlistweb.controller.login;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

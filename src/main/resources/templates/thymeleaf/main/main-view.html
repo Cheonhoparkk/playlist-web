@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Playlists</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- 데이터 전달 -->
+<script th:inline="javascript">
+    const playlistsData = /*[[${playlists}]]*/ '[]'; // 서버에서 전달된 데이터를 JavaScript 변수로 전달
+    console.log("Playlists Data:", playlistsData); // 디버깅용 로그
+</script>
+
+<script src="/js/main-view.js"></script>
+
+<div class="container">
+    <h1 class="logo">My YouTube Playlists</h1>
+    <div id="playlist-container" class="playlist-container"></div>
+</div>
+</body>
+</html>
