@@ -38,3 +38,4 @@ out/
 
 # Custom: Ignore application-database.yml
 application-database.yml
+application-google.yml
