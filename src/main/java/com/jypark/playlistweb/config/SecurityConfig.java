@@ -16,7 +16,7 @@ public class SecurityConfig {
                 // 1. 페이지 접근 권한 설정
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                // 루트 페이지, 로그인 페이지, 그리고 css와 js파일에 대해 인증 없이 접근 가능( + img)
+                                // 루트 페이지, 로그인 페이지, 그리고 css와 js파일에 대해 인증 없이 접근 가능( + img, lib)
                                 .requestMatchers("/", "/login/login-view", "/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
                                 // 그 외 모든 요청은 인증이 필요
                                 .anyRequest().authenticated()

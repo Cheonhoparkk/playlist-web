@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="${title} | Music Platform">Music Platform</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/lib/jquery-ui.min.css">
+    <script src="/lib/jquery-3.7.1.min.js"></script>
+    <script src="/lib/jquery-ui.min.js"></script>
+    <script src="/js/main/main-view.js"></script>
+</head>
+<body>
+<!-- Sidebar Fragment -->
+<div class="sidebar" layout:fragment="sidebar">
+    <div class="logo">🎵 Music</div>
+    <nav>
+        <ul>
+            <li><a href="#" id="home-link">홈</a></li>
+            <li><a href="#" id="logout-link">로그아웃</a></li>
+        </ul>
+    </nav>
+    <div class="playlist">
+        <h3>재생목록</h3>
+        <ul>
+            <li th:each="playlist : ${playlists}">
+                <a href="#" th:attr="data-id=${playlist['id']}" th:text="${playlist['name']}" class="playlist-item">Playlist Name</a>
+            </li>
+        </ul>
+        <div th:if="${#lists.isEmpty(playlists)}">재생목록이 없습니다.</div>
+    </div>
+</div>
+
+<!-- Content Fragment -->
+<div class="content" layout:fragment="content">
+    <!-- Default Content Placeholder -->
+</div>
+</body>
+</html>
