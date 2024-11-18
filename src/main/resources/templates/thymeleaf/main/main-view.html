@@ -1,26 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>YouTube Playlists</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Platform</title>
+    <link rel="stylesheet" href="/lib/jquery-ui.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="sidebar">
+    <div class="logo">🎵 Music</div>
+    <nav>
+        <ul>
+            <!-- 활성화 시 클래스 active 추가-->
+            <li><a href="#" id="home-link">홈</a></li>
+            <li><a href="#" id="logout-link">로그아웃</a></li>
+        </ul>
+    </nav>
+    <div class="playlist">
+        <h3>재생목록</h3>
+        <ul>
+            <!-- 재생목록 반복 렌더링 -->
+            <li th:each="playlist : ${playlists}">
+                <a href="#" th:attr="data-id=${playlist['id']}" th:text="${playlist['name']}" class="playlist-item">Playlist Name</a>
+            </li>
+        </ul>
 
-<!-- 데이터 전달 -->
-<script th:inline="javascript">
-    const playlistsData = /*[[${playlists}]]*/ '[]'; // 서버에서 전달된 데이터를 JavaScript 변수로 전달
-    console.log("Playlists Data:", playlistsData); // 디버깅용 로그
-</script>
-
-<script src="/js/main-view.js"></script>
-
-<div class="container">
-    <h1 class="logo">My YouTube Playlists</h1>
-    <div id="playlist-container" class="playlist-container">
-
+        <!-- 재생목록이 없는 경우 -->
+        <div th:if="${#lists.isEmpty(playlists)}">재생목록이 없습니다.</div>
     </div>
 </div>
+<div class="content">
+    <header>
+        <input type="text" placeholder="노래, 앨범, 아티스트 검색">
+    </header>
+    <main>
+        <h2 th:text="'곡 리스트'">곡 리스트</h2>
+        <div class="cards" id="song-cards">
+            <!-- AJAX 요청 결과로 곡 카드 리스트가 업데이트됨 -->
+        </div>
+    </main>
+</div>
+
+<!-- jQuery 및 jQuery UI 라이브러리 -->
+<script src="/lib/jquery-3.7.1.min.js"></script>
+<script src="/lib/jquery-ui.min.js"></script>
+
+<!-- JavaScript 파일 -->
+<script src="/js/main/main-view.js"></script>
+
 </body>
 </html>

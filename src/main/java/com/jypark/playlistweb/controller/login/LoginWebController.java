@@ -13,6 +13,6 @@ public class LoginWebController {
     @GetMapping("/login-view")
     public String loginPage() {
         log.info("Login page accessed");
-        return "login/login-view";
+        return "thymeleaf/login/login-view";
     }
 }

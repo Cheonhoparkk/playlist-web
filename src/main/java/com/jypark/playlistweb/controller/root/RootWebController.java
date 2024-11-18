@@ -18,9 +18,9 @@ public class RootWebController {
     public String indexPage(final Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             // 이미 로그인된 사용자는 메인 페이지로 리디렉션
-            return "redirect:/main";
+            return "redirect:/main/main-view";
         }
         model.addAttribute("returnPageUri", returnPageUri);
-        return "index";
+        return "thymeleaf/index";
     }
 }

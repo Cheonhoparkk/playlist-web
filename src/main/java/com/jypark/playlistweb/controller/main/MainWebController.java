@@ -1,5 +1,7 @@
 package com.jypark.playlistweb.controller.main;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jypark.playlistweb.service.youtube.YouTubeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,12 @@ import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2Aut
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -16,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainWebController {
 
     private final YouTubeService youTubeService;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public MainWebController(YouTubeService youTubeService) {
+    public MainWebController(YouTubeService youTubeService, ObjectMapper objectMapper) {
         this.youTubeService = youTubeService;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -30,18 +39,33 @@ public class MainWebController {
      */
     @GetMapping("/main-view")
     public String mainPage(Model model, @RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient authorizedClient) {
-        // YouTube 재생목록 데이터 가져오기
-        String playlists = youTubeService.getPlaylists(authorizedClient).block();   // 비동기 Mono를 동기로 변환
+        try {
+            // YouTube API에서 재생목록 가져오기
+            String playlistsJson = youTubeService.getPlaylists(authorizedClient).block(); // 비동기 Mono를 동기로 변환
+            List<Map<String, String>> playlists = new ArrayList<>();
 
-        if (playlists != null) {
-            // 재생목록 데이터가 정상적으로 수신된 경우 로그 출력
-            log.info("Playlists Data: {}", playlists); // 서버에서 데이터를 확인
-            model.addAttribute("playlists", playlists); // 모델에 추가
-        } else {
-            // 재생목록 데이터가 없는 경우 로그 경고 메시지 출력
-            log.warn("No playlists data received.");
-            model.addAttribute("playlists", "[]"); // 기본값으로 빈 배열 전달
+            if (playlistsJson != null) {
+                // JSON 데이터를 파싱
+                JsonNode items = objectMapper.readTree(playlistsJson).get("items");
+                if (items != null) {
+                    for (JsonNode item : items) {
+                        String id = item.get("id").asText();
+                        String name = item.get("snippet").get("title").asText();
+                        playlists.add(Map.of("id", id, "name", name));
+                    }
+                }
+                log.info("Playlists Data: {}", playlists);
+            } else {
+                log.warn("No playlists data received.");
+            }
+
+            // 모델에 재생목록 데이터 전달
+            model.addAttribute("playlists", playlists);
+        } catch (Exception e) {
+            log.error("Error while fetching or parsing playlists", e);
+            model.addAttribute("playlists", List.of()); // 에러 발생 시 빈 리스트 전달
         }
-        return "main/main-view";
+
+        return "thymeleaf/main/main-view";
     }
 }

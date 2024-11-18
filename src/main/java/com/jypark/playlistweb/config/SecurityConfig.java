@@ -17,7 +17,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 // 루트 페이지, 로그인 페이지, 그리고 css와 js파일에 대해 인증 없이 접근 가능( + img)
-                                .requestMatchers("/", "/login/login-view", "/css/**", "/js/**", "/img/**").permitAll()
+                                .requestMatchers("/", "/login/login-view", "/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
                                 // 그 외 모든 요청은 인증이 필요
                                 .anyRequest().authenticated()
                 )
@@ -32,8 +32,15 @@ public class SecurityConfig {
                 // 3. 로그아웃 설정
                 .logout(logout ->
                         logout
-                                // 로그아웃 성공 시 리디렉션할 경로 설정
-                                .logoutSuccessUrl("/").permitAll()
+                                // 로그아웃 URL 설정
+                                .logoutUrl("/logout")
+                                // 로그아웃 성공 시 리디렉션할 URL 설정
+                                .logoutSuccessUrl("/login/login-view")
+                                // 세션 무효화 및 인증정보 삭제
+                                .invalidateHttpSession(true)
+                                .clearAuthentication(true)
+                                // JSESSIONID 쿠키 삭제
+                                .deleteCookies("JSESSIONID")
                 );
         // 보안 필터 체인을 구성한 후 반환
         return http.build();
