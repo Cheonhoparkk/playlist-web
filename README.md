@@ -1,6 +1,26 @@
-# 유튜브 api를 이용한 뮤직 플레이리스트 웹
+# 유튜브 api를 이용한 뮤직 플레이리스트 웹 (Music playlist web using YouTube API)
 
+## 가이드 (Guide)
 
+###  application-database.yml 및 application-google.yml 직접 만들어서 넣어야함
+[application-google.yml]
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: your_id
+            client-secret: your_secret
+            scope: profile, email, https://www.googleapis.com/auth/youtube.readonly
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            
+[application-google.yml]
 
 
 ## 개발 일지
