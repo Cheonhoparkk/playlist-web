@@ -3,7 +3,7 @@
 ## 가이드 (Guide)
 
 ###  application-database.yml 및 application-google.yml 직접 만들어서 넣어야함
-[application-google.yml]
+#### [application-google.yml]
 spring:
   security:
     oauth2:
