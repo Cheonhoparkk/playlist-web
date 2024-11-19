@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - PlaylistWeb</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">   <!-- Google Fonts -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="login-body">
@@ -16,7 +16,7 @@
         <p class="sub-text">이용하시려면 구글로 로그인 해보세요!</p>
 
         <!-- Google 로그인 버튼 -->
-        <a th:href="@{/oauth2/authorization/google}" class="google-login-btn">
+        <a th:href="@{/oauth2/authorization/google}" class="google-login-btn"> <!-- Spring Security의 OAuth 2.0 인증  -->
             <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" class="google-logo">
             Google로 로그인
         </a>

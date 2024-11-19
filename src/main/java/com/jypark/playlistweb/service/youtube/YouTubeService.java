@@ -29,20 +29,30 @@ public class YouTubeService {
     public Mono<String> getPlaylists(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient authorizedClient) {
         return webClient
                 .get() // HTTP GET 요청 설정
-                .uri("/youtube/v3/playlists?part=snippet&mine=true") // API 엔드포인트 URI (사용자의 재생목록 요청)
+                .uri(uriBuilder -> uriBuilder
+                        .path("/youtube/v3/playlists") // YouTube Data API에서 사용자의 재생목록을 가져오기 위한 엔드포인트
+                        .queryParam("part", "snippet") // 요청할 리소스의 세부정보를 지정. "snippet"은 제목, 설명 등의 정보를 포함
+                        .queryParam("mine", "true") // 사용자의 재생목록만 가져오도록 설정. true는 로그인된 사용자와 연결된 재생목록을 의미
+                        .queryParam("maxResults", 50) // 최대 50개의 재생목록 요청
+                        .build())
                 .headers(headers -> headers.setBearerAuth(authorizedClient.getAccessToken().getTokenValue())) // 인증 토큰을 헤더에 추가
                 .retrieve() // 서버 응답을 받아 처리 시작
                 .bodyToMono(String.class);  // JSON 응답을 String으로 반환
     }
 
+    /**
+     * 사용자의 YouTube 재생목록의 곡들을 가져오는 메서드
+     * @param authorizedClient OAuth2 인증된 클라이언트 (Google 계정으로 인증됨)
+     * @return 사용자의 YouTube 재생목록 곡 데이터를 Mono로 반환 (비동기 처리)
+     */
     public Mono<String> getPlaylistItems(String playlistId, OAuth2AuthorizedClient authorizedClient) {
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/youtube/v3/playlistItems")
-                        .queryParam("part", "snippet")
-                        .queryParam("mine", "true")
-                        .queryParam("playlistId", playlistId)
+                        .path("/youtube/v3/playlistItems") // YouTube Data API에서 특정 재생목록의 곡들을 가져오기 위한 엔드포인트 설정
+                        .queryParam("part", "snippet") // 요청할 리소스의 세부정보를 지정. "snippet"은 곡 제목, 설명, 썸네일 등의 정보를 포함
+                        .queryParam("mine", "true") // 사용자의 데이터만 가져오도록 설정. true는 인증된 사용자의 데이터에 접근
+                        .queryParam("playlistId", playlistId) // 재생목록 ID를 지정. 이 ID는 어떤 재생목록의 데이터를 가져올지를 명시
                         .queryParam("maxResults", 50) // 원하는 결과 수
                         .build())
                 .headers(headers -> headers.setBearerAuth(authorizedClient.getAccessToken().getTokenValue())) // OAuth2 토큰 설정

@@ -29,7 +29,7 @@ public class SecurityConfig {
                                 // 로그인 성공 시 리디렉션할 경로 설정
                                 .defaultSuccessUrl("/main/main-view")
                 )
-                // 3. 로그아웃 설정
+                // 3. 로그아웃 설정(아직 안됨)
                 .logout(logout ->
                         logout
                                 // 로그아웃 URL 설정

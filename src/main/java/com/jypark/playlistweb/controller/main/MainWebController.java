@@ -42,15 +42,20 @@ public class MainWebController {
         try {
             // YouTube API에서 재생목록 가져오기
             String playlistsJson = youTubeService.getPlaylists(authorizedClient).block(); // 비동기 Mono를 동기로 변환
+            // 재생목록 데이터를 저장할 리스트
             List<Map<String, String>> playlists = new ArrayList<>();
 
             if (playlistsJson != null) {
-                // JSON 데이터를 파싱
+                // JSON 데이터를 파싱하여 "items" 배열 추출
                 JsonNode items = objectMapper.readTree(playlistsJson).get("items");
                 if (items != null) {
                     for (JsonNode item : items) {
+                        // 재생목록 ID 추출
                         String id = item.get("id").asText();
+                        // 재생목록 제목
                         String name = item.get("snippet").get("title").asText();
+
+                        // 재생목록 데이터를 Map으로 저장하고 리스트에 추가
                         playlists.add(Map.of("id", id, "name", name));
                     }
                 }
@@ -63,7 +68,9 @@ public class MainWebController {
             model.addAttribute("playlists", playlists);
         } catch (Exception e) {
             log.error("Error while fetching or parsing playlists", e);
-            model.addAttribute("playlists", List.of()); // 에러 발생 시 빈 리스트 전달
+
+            // 에러가 발생한 경우에도 빈 리스트를 모델에 추가하여 뷰가 정상적으로 렌더링되도록 함
+            model.addAttribute("playlists", List.of());
         }
 
         return "thymeleaf/main/main-view";
