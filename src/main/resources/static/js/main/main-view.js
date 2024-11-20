@@ -2,6 +2,11 @@ jQuery(document).ready(function () {
     let allSongs = [];  // 곡 데이터를 저장할 배열
     let currentPlaylistId = ''; // 현재 재생목록 ID를 저장
 
+    // "로고" 클릭 이벤트 처리
+    jQuery('#logo-link').on('click', function () {
+        location.reload(); // 페이지 새로고침
+    });
+
     // "홈" 링크 클릭 이벤트 처리
     jQuery('#home-link').on('click', function (event) {
         event.preventDefault(); // 링크 기본 동작 방지
